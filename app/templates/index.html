@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Recipes{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-6">
+        <div class="card recipe-card mb-4 shadow-sm">
+            {% if recipe.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' ~ recipe.image_filename) }}" class="card-img-top"
+                alt="{{ recipe.name }}">
+            {% else %}
+            <img src="https://via.placeholder.com/800x600?text=No+Image" class="card-img-top" alt="No Image Available">
+            {% endif %}
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                <a href="{{ url_for('main.recipe', recipe_id=recipe.id) }}" class="btn btn-dark mt-2">View Recipe</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

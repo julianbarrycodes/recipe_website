@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="landing-hero">
+    <div class="overlay">
+        <div class="hero-content text-center text-white">
+            <h1 class="display-3 mb-4">Welcome to Suellen's Kitchen</h1>
+            <p class="lead mb-4">Discover authentic home-cooked recipes that bring families together</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.login') }}" class="btn btn-primary btn-lg me-3">Login</a>
+                <a href="{{ url_for('main.register') }}" class="btn btn-outline-light btn-lg">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.landing-hero {
+    height: calc(100vh - 76px); /* Full viewport height minus navbar */
+    background-image: url('{{ url_for('static', filename='images/landing-bg.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.lead {
+    font-size: 1.5rem;
+}
+
+.cta-buttons {
+    margin-top: 2rem;
+}
+</style>
+{% endblock %} 

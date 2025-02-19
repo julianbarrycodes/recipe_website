@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <h1 class="text-center text-dark mt-4">Search Results for "{{ query }}"</h1>
+
+    {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+                <div class="col-md-6">
+                    <div class="card recipe-card mb-4 shadow-sm">
+                        <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.name }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <a href="{{ url_for('recipe', recipe_id=recipe.id) }}" class="btn btn-dark mt-2">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-danger">No recipes found for "{{ query }}". Try another search!</p>
+    {% endif %}
+{% endblock %}

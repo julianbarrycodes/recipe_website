@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Admin Panel - Manage Recipes</h1>
+
+    <form action="{{ url_for('main.add_recipe') }}" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" class="form-control mb-2" placeholder="Recipe Name" required>
+        <textarea name="ingredients" class="form-control mb-2" placeholder="Ingredients (one per line)" required></textarea>
+        <textarea name="instructions" class="form-control mb-2" placeholder="Instructions (one per line)" required></textarea>
+        
+        <!-- Image file input -->
+        <input type="file" name="image_file" class="form-control mb-2" accept="image/*">
+        
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+    </form>
+    
+{% endblock %}

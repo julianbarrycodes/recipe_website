@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ recipe.name }}</h1>
+            
+            <!-- Rating Display -->
+            <div class="mb-3">
+                <span class="h4">Rating: {{ "⭐" * avg_rating|round|int }}</span>
+                <small>({{ "%.1f"|format(avg_rating) }} / 5)</small>
+            </div>
+
+            {% if recipe.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + recipe.image_filename) }}" 
+                 class="img-fluid rounded mb-3" alt="{{ recipe.name }}">
+            {% endif %}
+
+            <h3>Ingredients</h3>
+            {% for line in recipe.ingredients.split('\n') %}
+                <p class="card-text">{{ line }}</p>
+            {% endfor %}
+
+            <h3>Instructions</h3>
+            {% for line in recipe.instructions.split('\n') %}
+                <p class="card-text">{{ line }}</p>
+            {% endfor %}
+
+            <!-- Comments and Rating Form -->
+            {% if current_user.is_authenticated %}
+            <div class="mt-4">
+                <h3>Leave a Comment</h3>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.rating.label(class="form-label") }}
+                        <div class="btn-group" role="group">
+                            {% for subfield in form.rating %}
+                            <div class="form-check form-check-inline">
+                                {{ subfield(class="btn-check") }}
+                                {{ subfield.label(class="btn btn-outline-warning") }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control") }}
+                    </div>
+
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- Comments Display -->
+            <div class="mt-4">
+                <h3>Comments</h3>
+                {% for comment in recipe.comments|sort(attribute='created_at', reverse=true) %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {{ comment.user.username }} on {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </h6>
+                        <p class="card-text">{{ comment.content }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
