@@ -3,12 +3,20 @@ venv/
 instance/
 *.db
 .env
+.env.*
+!.env.example
+
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Uploads and backups
 app/static/uploads/*
+!app/static/uploads/.gitkeep
 backups/
+!backups/.gitkeep
 
 # System files
 .DS_Store
@@ -18,3 +26,8 @@ backups/
 *.pem
 *.key
 *.crt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
