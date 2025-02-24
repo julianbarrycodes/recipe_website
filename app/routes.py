@@ -74,23 +74,32 @@ def admin_dashboard():
 @login_required
 @admin_required
 def add_recipe():
-    name = request.form["name"]
-    ingredients = request.form["ingredients"]
-    instructions = request.form["instructions"]
-    
-    # Check if an image file was uploaded
-    image_file = request.files.get("image_file")
-    if image_file and image_file.filename:
-        filename = secure_filename(image_file.filename)
-        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        image_file.save(image_path)
-    else:
-        filename = None  # No image uploaded
+    try:
+        name = request.form["name"]
+        ingredients = request.form["ingredients"]
+        instructions = request.form["instructions"]
+        
+        # Check if an image file was uploaded
+        image_file = request.files.get("image_file")
+        if image_file and image_file.filename:
+            filename = secure_filename(image_file.filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            print(f"Saving image to: {image_path}")  # Debug print
+            image_file.save(image_path)
+        else:
+            filename = None
+            print("No image file uploaded")  # Debug print
 
-    new_recipe = Recipe(name=name, ingredients=ingredients, instructions=instructions, image_filename=filename)
-    db.session.add(new_recipe)
-    db.session.commit()
-    return redirect(url_for("main.admin_dashboard"))
+        new_recipe = Recipe(name=name, ingredients=ingredients, instructions=instructions, image_filename=filename)
+        db.session.add(new_recipe)
+        db.session.commit()
+        print("Recipe added successfully")  # Debug print
+        return redirect(url_for("main.admin_dashboard"))
+    except Exception as e:
+        print(f"Error adding recipe: {str(e)}")  # Debug print
+        db.session.rollback()
+        flash('Error adding recipe', 'danger')
+        return redirect(url_for("main.admin_dashboard"))
 
 @main.route("/delete_recipe/<int:recipe_id>")
 @login_required

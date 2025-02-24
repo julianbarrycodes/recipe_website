@@ -1,0 +1,20 @@
+# Environment and instance
+venv/
+instance/
+*.db
+.env
+__pycache__/
+*.pyc
+
+# Uploads and backups
+app/static/uploads/*
+backups/
+
+# System files
+.DS_Store
+*.log
+
+# SSL/TLS certificates
+*.pem
+*.key
+*.crt
